@@ -146,8 +146,6 @@ class Ps_faviconnotificationbo extends Module
     }
 
     /**
-     * @param array $params
-     *
      * @return string
      */
     public function hookDisplayBackOfficeHeader(array $params)
