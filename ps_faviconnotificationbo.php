@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 2007-2020 PrestaShop and Contributors
  *
@@ -23,15 +25,15 @@ if (!defined('_PS_VERSION_')) {
 
 class Ps_faviconnotificationbo extends Module
 {
-    const CONFIG_COUNT_ORDER_NOTIFICATION = 'CHECKBOX_ORDER';
-    const CONFIG_COUNT_CUSTOMER_NOTIFICATION = 'CHECKBOX_CUSTOMER';
-    const CONFIG_COUNT_MSG_NOTIFICATION = 'CHECKBOX_MESSAGE';
-    const CONFIG_FAVICON_BACKGROUND_COLOR = 'BACKGROUND_COLOR_FAVICONBO';
-    const CONFIG_FAVICON_TXT_COLOR = 'TEXT_COLOR_FAVICONBO';
-    const HOOKS = [
+    public const CONFIG_COUNT_ORDER_NOTIFICATION = 'CHECKBOX_ORDER';
+    public const CONFIG_COUNT_CUSTOMER_NOTIFICATION = 'CHECKBOX_CUSTOMER';
+    public const CONFIG_COUNT_MSG_NOTIFICATION = 'CHECKBOX_MESSAGE';
+    public const CONFIG_FAVICON_BACKGROUND_COLOR = 'BACKGROUND_COLOR_FAVICONBO';
+    public const CONFIG_FAVICON_TXT_COLOR = 'TEXT_COLOR_FAVICONBO';
+    public const HOOKS = [
         'displayBackOfficeHeader',
     ];
-    const ADMINCONTROLLERS = [
+    public const ADMINCONTROLLERS = [
         'adminConfigure' => 'AdminConfigureFaviconBo',
     ];
 
