@@ -36,16 +36,29 @@ class AdminConfigureFaviconBoControllerTest extends PHPUnit_Framework_TestCase
             $this->assertArrayHasKey($key, $section['fields']);
         }
 
-        $order = $section['fields'][Ps_faviconnotificationbo::CONFIG_COUNT_ORDER_NOTIFICATION];
-        $this->assertSame('bool', $order['type']);
-        $this->assertSame('isBool', $order['validation']);
-        $this->assertSame('intval', $order['cast']);
+        $boolFields = array(
+            Ps_faviconnotificationbo::CONFIG_COUNT_ORDER_NOTIFICATION,
+            Ps_faviconnotificationbo::CONFIG_COUNT_CUSTOMER_NOTIFICATION,
+            Ps_faviconnotificationbo::CONFIG_COUNT_MSG_NOTIFICATION,
+        );
+        foreach ($boolFields as $key) {
+            $field = $section['fields'][$key];
+            $this->assertSame('bool', $field['type']);
+            $this->assertSame('isBool', $field['validation']);
+            $this->assertSame('intval', $field['cast']);
+        }
 
-        $background = $section['fields'][Ps_faviconnotificationbo::CONFIG_FAVICON_BACKGROUND_COLOR];
-        $this->assertSame('color', $background['type']);
-        $this->assertSame('isColor', $background['validation']);
-        $this->assertFalse($background['required']);
-        $this->assertFalse(array_key_exists('cast', $background));
+        $colorFields = array(
+            Ps_faviconnotificationbo::CONFIG_FAVICON_BACKGROUND_COLOR,
+            Ps_faviconnotificationbo::CONFIG_FAVICON_TXT_COLOR,
+        );
+        foreach ($colorFields as $key) {
+            $field = $section['fields'][$key];
+            $this->assertSame('color', $field['type']);
+            $this->assertSame('isColor', $field['validation']);
+            $this->assertFalse($field['required']);
+            $this->assertFalse(array_key_exists('cast', $field));
+        }
     }
 
     public function testConstructDoesNotWriteConfiguration()

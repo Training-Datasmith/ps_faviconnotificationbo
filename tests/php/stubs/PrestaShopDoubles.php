@@ -535,15 +535,20 @@ class PrestaShopCollection
     /** @var array */
     public static $items = array();
 
+    /** @var array */
+    public static $constructedEntities = array();
+
     public function __construct($entity)
     {
         $this->entity = $entity;
+        self::$constructedEntities[] = $entity;
     }
 
     public static function reset()
     {
         self::$whereCalls = array();
         self::$items = array();
+        self::$constructedEntities = array();
     }
 
     /**

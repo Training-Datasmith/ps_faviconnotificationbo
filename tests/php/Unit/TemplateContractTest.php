@@ -35,6 +35,10 @@ class TemplateContractTest extends PHPUnit_Framework_TestCase
         $this->assertContains('name="{$key}"', $contents);
         $this->assertContains("value=\"{\$field['value']|escape:'html':'UTF-8'}\"", $contents);
         $this->assertContains("$.fn.mColorPicker.defaults.imageFolder = baseDir + 'img/admin/';", $contents);
-        $this->assertContains('{$smarty.block.parent}', $contents);
+
+        $this->assertTrue((bool) preg_match('/\{block name="input"\}(.*?)\{\/block\}/s', $contents, $inputBlock));
+        $this->assertTrue((bool) preg_match('/\{block name="after"\}(.*?)\{\/block\}/s', $contents, $afterBlock));
+        $this->assertContains('{$smarty.block.parent}', $inputBlock[1]);
+        $this->assertContains('{$smarty.block.parent}', $afterBlock[1]);
     }
 }

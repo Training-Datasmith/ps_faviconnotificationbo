@@ -76,7 +76,10 @@ class FaviconNotificationModuleTest extends PHPUnit_Framework_TestCase
             Ps_faviconnotificationbo::CONFIG_FAVICON_BACKGROUND_COLOR => '#DF0067',
             Ps_faviconnotificationbo::CONFIG_FAVICON_TXT_COLOR => '#FFFFFF',
         );
-        $this->assertSame($expectedConfig, $this->configurationMapFromUpdateLog());
+        $actualConfig = $this->configurationMapFromUpdateLog();
+        ksort($expectedConfig);
+        ksort($actualConfig);
+        $this->assertSame($expectedConfig, $actualConfig);
 
         $this->assertCount(1, Tab::$addedTabs);
         $tab = Tab::$addedTabs[0];
@@ -129,7 +132,10 @@ class FaviconNotificationModuleTest extends PHPUnit_Framework_TestCase
             Ps_faviconnotificationbo::CONFIG_FAVICON_BACKGROUND_COLOR,
             Ps_faviconnotificationbo::CONFIG_FAVICON_TXT_COLOR,
         );
-        $this->assertSame($expectedKeys, Configuration::$deleteLog);
+        $deletedKeys = Configuration::$deleteLog;
+        sort($expectedKeys);
+        sort($deletedKeys);
+        $this->assertSame($expectedKeys, $deletedKeys);
     }
 
     public function testUninstallRemovesConfigurationAndModuleTabs()
@@ -138,8 +144,7 @@ class FaviconNotificationModuleTest extends PHPUnit_Framework_TestCase
         $tabTwo = new Tab();
         Tab::$collectionByModule['ps_faviconnotificationbo'] = array($tabOne, $tabTwo);
 
-        $this->assertTrue($this->module->uninstallConfiguration());
-        $this->assertTrue($this->module->uninstallTabs());
+        $this->assertTrue($this->module->uninstall());
 
         $deletedKeys = Configuration::$deleteLog;
         sort($deletedKeys);
@@ -204,17 +209,18 @@ class FaviconNotificationModuleTest extends PHPUnit_Framework_TestCase
             Smarty::$lastFetchPath
         );
 
-        $this->assertSame(
-            array(
-                'bofaviconBgColor' => 'opaque-bg',
-                'bofaviconTxtColor' => 'opaque-txt',
-                'bofaviconOrder' => 'opaque-order',
-                'bofaviconCustomer' => 'opaque-customer',
-                'bofaviconMsg' => 'opaque-msg',
-                'bofaviconUrl' => Link::$adminUrlSentinel,
-            ),
-            Smarty::$assignments
+        $expectedAssignments = array(
+            'bofaviconBgColor' => 'opaque-bg',
+            'bofaviconTxtColor' => 'opaque-txt',
+            'bofaviconOrder' => 'opaque-order',
+            'bofaviconCustomer' => 'opaque-customer',
+            'bofaviconMsg' => 'opaque-msg',
+            'bofaviconUrl' => Link::$adminUrlSentinel,
         );
+        $actualAssignments = Smarty::$assignments;
+        ksort($expectedAssignments);
+        ksort($actualAssignments);
+        $this->assertSame($expectedAssignments, $actualAssignments);
 
         $this->assertCount(1, Controller::$jsFiles);
         $this->assertSame(

@@ -20,6 +20,7 @@ class UpgradeModule210Test extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(upgrade_module_2_1_0($this->module));
 
+        $this->assertSame(array('Meta'), PrestaShopCollection::$constructedEntities);
         $this->assertSame(
             array(array('page', 'like', 'module-ps_faviconnotificationbo-Admin%')),
             PrestaShopCollection::$whereCalls
