@@ -36,7 +36,9 @@ function upgrade_module_2_1_0($module)
 
     foreach ($metaCollection->getAll() as $meta) {
         /** @var Meta $meta */
-        $result = $result && (bool) $meta->delete();
+        if (!(bool) $meta->delete()) {
+            $result = false;
+        }
     }
 
     // Remove old ajax controller and add new controller for configuration

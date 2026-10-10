@@ -115,11 +115,25 @@ class Ps_faviconnotificationbo extends Module
      */
     public function uninstallConfiguration()
     {
-        return (bool) Configuration::deleteByName(static::CONFIG_COUNT_ORDER_NOTIFICATION)
-            && (bool) Configuration::deleteByName(static::CONFIG_COUNT_CUSTOMER_NOTIFICATION)
-            && (bool) Configuration::deleteByName(static::CONFIG_COUNT_MSG_NOTIFICATION)
-            && (bool) Configuration::deleteByName(static::CONFIG_FAVICON_BACKGROUND_COLOR)
-            && (bool) Configuration::deleteByName(static::CONFIG_FAVICON_TXT_COLOR);
+        $result = true;
+
+        if (!(bool) Configuration::deleteByName(static::CONFIG_COUNT_ORDER_NOTIFICATION)) {
+            $result = false;
+        }
+        if (!(bool) Configuration::deleteByName(static::CONFIG_COUNT_CUSTOMER_NOTIFICATION)) {
+            $result = false;
+        }
+        if (!(bool) Configuration::deleteByName(static::CONFIG_COUNT_MSG_NOTIFICATION)) {
+            $result = false;
+        }
+        if (!(bool) Configuration::deleteByName(static::CONFIG_FAVICON_BACKGROUND_COLOR)) {
+            $result = false;
+        }
+        if (!(bool) Configuration::deleteByName(static::CONFIG_FAVICON_TXT_COLOR)) {
+            $result = false;
+        }
+
+        return (bool) $result;
     }
 
     /**
@@ -131,7 +145,9 @@ class Ps_faviconnotificationbo extends Module
 
         foreach (Tab::getCollectionFromModule($this->name) as $tab) {
             /** @var Tab $tab */
-            $result = $result && (bool) $tab->delete();
+            if (!(bool) $tab->delete()) {
+                $result = false;
+            }
         }
 
         return $result;
